@@ -1,31 +1,30 @@
 import requests
 import jsons
+import pandas as pd
 
 def main():
-    cambio_dolar()
-    cambio_libra()
-    cambio_soles()
-    cambio_euro()
+    dolar = cambio_dolar()
+    euro = cambio_euro()
+    libra = cambio_libra()
+    soles = cambio_soles()
+    exportar_csv(dolar, euro, libra, soles)
 
-def cambio_dolar():
+def cambio_dolar(url = "http://data.fixer.io/api/latest?access_key=1ba0d8f4dfac0e2b0aa76a563e2ae395&format=1"):
     print("estabelecendo conexão com link...")
-    response = requests.get("http://data.fixer.io/api/latest?access_key=1ba0d8f4dfac0e2b0aa76a563e2ae395&format=1")
+    response = requests.get(url)
     if response.status_code == 200:
-        print("conseguiu se conectar...")
         dados = response.json()
         taxa_usd = dados['rates']['USD']
         taxa_br = dados['rates']['BRL']
-        real = taxa_br / taxa_usd
-        print("US$1 custa R$%.2f" % real)
-        return real
+        dolar = taxa_br / taxa_usd
+        print("US$1 custa R$%.2f" % dolar)
+        return dolar
     else:
         print("site com problema!")
 
-def cambio_euro():
-    print("estabelecendo conexão com link...")
-    response = requests.get("http://data.fixer.io/api/latest?access_key=1ba0d8f4dfac0e2b0aa76a563e2ae395&format=1")
+def cambio_euro(url = "http://data.fixer.io/api/latest?access_key=1ba0d8f4dfac0e2b0aa76a563e2ae395&format=1"):
+    response = requests.get(url)
     if response.status_code == 200:
-        print("conseguiu se conectar...")
         dados = response.json()
         taxa_br = dados['rates']['BRL']
         taxa_eu = dados['rates']['EUR']
@@ -35,11 +34,9 @@ def cambio_euro():
     else:
         print("site com problema!")
 
-def cambio_libra():
-    print("estabelecendo conexão com link...")
-    response = requests.get("http://data.fixer.io/api/latest?access_key=1ba0d8f4dfac0e2b0aa76a563e2ae395&format=1")
+def cambio_libra(url = "http://data.fixer.io/api/latest?access_key=1ba0d8f4dfac0e2b0aa76a563e2ae395&format=1"):
+    response = requests.get(url)
     if response.status_code == 200:
-        print("conseguiu se conectar...")
         dados = response.json()
         taxa_br = dados['rates']['BRL']
         taxa_lb = dados['rates']['GBP']
@@ -49,19 +46,22 @@ def cambio_libra():
     else:
         print("site com problema!")
 
-def cambio_soles():
-    print("estabelecendo conexão com link...")
-    response = requests.get("http://data.fixer.io/api/latest?access_key=1ba0d8f4dfac0e2b0aa76a563e2ae395&format=1")
+def cambio_soles(url = "http://data.fixer.io/api/latest?access_key=1ba0d8f4dfac0e2b0aa76a563e2ae395&format=1"):
+    response = requests.get(url)
     if response.status_code == 200:
-        print("conseguiu se conectar...")
         dados = response.json()
         taxa_br = dados['rates']['BRL']
         taxa_pe = dados['rates']['PEN']
-        peru = taxa_br / taxa_pe
-        print("S/1 soles custa R$%.2f" % peru)
-        return peru
+        soles = taxa_br / taxa_pe
+        print("S/1 soles custa R$%.2f" % soles)
+        return soles
     else:
         print("site com problema!")
+def exportar_csv(dolar, euro, libra, soles):
+    linha = {'Dolar - USD': [dolar], 'Euro - EUR': [euro], 'Libra - GBP': [libra], 'Soles - S': [soles]}
+    frame = pd.DataFrame(linha, columns = ['Dolar - USD', 'Euro - EUR', 'Libra - GBP', 'Soles - S'])
+    frame.to_csv('moeda.csv')
+    print("Dados salvos na tabela")
 
 if __name__ == '__main__':
     main()

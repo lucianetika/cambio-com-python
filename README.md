@@ -8,23 +8,30 @@ Um script para pegar os valores, via requisições web, das seguintes cotações
   - Libra esterlina (£)
   - Soles peruanos (S/)
 
+um arquivo .csv será gerado com os valores das moedas
+
 # Funções criadas!
 ```sh
 cambio_dolar
 ```
-  é possivel saber o valor do dolar em real
+  é possível saber o valor do dolar em real
 ```sh
 cambio_euro
 ```
-  é possivel saber o valor do euro em real
+  é possível saber o valor do euro em real
 ```sh
 cambio_libra
 ```
-  é possivel saber o valor do libra em real
+  é possível saber o valor da libra em real
 ```sh
 cambio_soles
 ```
-  é possivel saber o valor do soles peruanos em real
+  é possível saber o valor do soles peruanos em real
+
+```sh 
+exportar_csv
+```
+   é possível exportar os dados em arquivo csv
 
 ### Development
 
